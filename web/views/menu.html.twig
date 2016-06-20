@@ -1,0 +1,155 @@
+{% extends 'ag_menu.html.twig' %}
+
+{% block menu %}
+
+<li class="treeview {% if option is defined and (option == 'bancos_list' or option == 'bancos_create' or option == 'bancos_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>bancos</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'bancos_list' %}class="active"{% endif %}><a href="{{ path('bancos_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'bandeja_ent_list' or option == 'bandeja_ent_create' or option == 'bandeja_ent_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Bandeja de entrada</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'bandeja_ent_list' %}class="active"{% endif %}><a href="{{ path('bandeja_ent_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'creditos_list' or option == 'creditos_create' or option == 'creditos_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>creditos</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'creditos_list' %}class="active"{% endif %}><a href="{{ path('creditos_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'creditosapp_list' or option == 'creditosapp_create' or option == 'creditosapp_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Creditos por aplicacion</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'creditosapp_list' %}class="active"{% endif %}><a href="{{ path('creditosapp_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'cuenta_list' or option == 'cuenta_create' or option == 'cuenta_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Cuentas</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'cuenta_list' %}class="active"{% endif %}><a href="{{ path('cuenta_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'direccion_app_list' or option == 'direccion_app_create' or option == 'direccion_app_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Asignar direcciones a aplicaciones</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'direccion_app_list' %}class="active"{% endif %}><a href="{{ path('direccion_app_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'directorio_list' or option == 'directorio_create' or option == 'directorio_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Directorios</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'directorio_list' %}class="active"{% endif %}><a href="{{ path('directorio_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'monedas_list' or option == 'monedas_create' or option == 'monedas_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Monedas</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'monedas_list' %}class="active"{% endif %}><a href="{{ path('monedas_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'pagos_list' or option == 'pagos_create' or option == 'pagos_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Pagos</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'pagos_list' %}class="active"{% endif %}><a href="{{ path('pagos_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'paises_list' or option == 'paises_create' or option == 'paises_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Paises</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'paises_list' %}class="active"{% endif %}><a href="{{ path('paises_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'usuarios_list' or option == 'usuarios_create' or option == 'usuarios_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Usuarios</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="{{ path('usuarios_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'cuentas_bancos_list' or option == 'cuentas_bancos_create' or option == 'cuentas_bancos_edit') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Cuentas Bancarias</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="{{ path('cuentas_bancos_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
+    </ul>
+</li>
+
+<li class="treeview {% if option is defined and (option == 'sms' or option == 'masivos') %}active{% endif %}">
+    <a href="#">
+        <i class="fa fa-folder-o"></i>
+        <span>Funcion de aplicación</span>
+        <i class="fa pull-right fa-angle-right"></i>
+    </a>
+    <ul class="treeview-menu" style="display: none;">
+        <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="{{ path('enviar') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Sms</a></li>
+        <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="/com/apiwa.php" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Whatsapp</a></li>
+        <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="/com/apiwa.php" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Voz</a></li>
+        <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="/com/apiwa.php" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> E-mail</a></li>
+    </ul>
+         
+    </ul>
+</li>
+
+
+
+{% endblock %}

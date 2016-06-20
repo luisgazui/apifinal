@@ -1,0 +1,110 @@
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#"><img src="{{ app.asset_path }}/img/Logo.png" style="width: 65px; height: 50px; margin-left: 14px" alt="Cinque Terre"></a>                
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user font-wow">
+                        <li><a href="/usuarios/profile"   ><i class="fa fa-user fa-fw"></i> Perfil de usuario</a>
+                        </li>
+                        <li><a href="/pagos/registrar"><i class="fa fa-gear fa-fw"></i> Registrar Pagos</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/salir"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav font-wow" id="side-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-comments fa-fw"></i> SMS<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/sms">Envio de SMS</a>
+                                </li>
+                                <li>
+                                    <a href="#">Bandeja de Salida</a>
+                                </li>
+                                <li>
+                                    <a href="/sms/masivos">Envio de SMS Masivos</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                <li>
+                    <a href="#"><i class="fa fa-whatsapp fa-fw"></i> Whatsapp<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/com/apiwa.php">Professional Whatsapp</a>
+                        </li>
+                        <li>
+                            <a href="/com/apiwaentrada.php">Bandeja de Entrada</a>
+                        </li>
+                        <li>
+                            <a href="/com/apiwasalida.php">Bandeja de Salida</a>
+                        </li>
+
+                         <li>
+                            <a href="/com/apiwamulti.php">Multiples Mensajes</a>
+                        </li>
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-envelope-o fa-fw"></i> Email<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="/com/apiemail.php">Professional Email</a>
+                        </li>
+                        <li>
+                            <a href="/com/email-directorio.php">Directorio</a>
+                        </li>
+                        <li>
+                            <a href="/com/email-enviado.php">Enviados</a>
+                        </li>
+                       
+                    </ul>
+                        <li>
+                            <a href="#"><i class="fa fa-microphone fa-fw"></i> Notas de Voz<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/voice">Professional Voice</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Directorio</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Borradores</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Registro</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>

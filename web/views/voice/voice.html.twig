@@ -1,0 +1,68 @@
+{% extends 'ag_base/apis.html.twig' %}
+
+{% block container %}
+
+{% include 'ag_menusms.html.twig' %}
+        <!-- Page Content -->
+
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row font-wow" style="margin-top: 25px">
+                    <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="col-md-6" >
+                            {% include 'ag_alerts.html.twig' %}
+                            {{ form_start(form, {'method': 'POST'}) }}
+                            {{ form_errors(form) }}
+
+                                <div class="form-group">
+
+                                    <div class='form-group inline'>
+                                        <label style="font-size: 15px" for="form_phone">Paises</label>
+                                        {{ form_widget(form.cod_area, { attr: { 'class': 'form-control selectpicker col-md-6',
+                                        'data-live-search' : "true" }}) }}
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label style="font-size: 15px" for="form_phone">Telefono</label>
+                                    <!--input id="form_phone" type="tel" name="phone" class="form-control" placeholder="XXX - XXXXXXX"-->
+                                    {{ form_widget(form.telefono, { attr: { 'class': 'form-control', 'placeholder' :"XXX - XXXXXXX", 'id' : "telefono" }}) }}
+                                </div>
+
+                                </div>
+
+                                <div class='form-group'>
+                                    
+                                    {{ form_widget(form.mensaje, { attr: { 'class': 'form-control col-md-6', 'placeholder' :"Tu mensaje no debe de tener mas de 600 caracteres. Tu acentuación y el uso de signos es importante para el envió de Llamadas con mensaje de voz, te sugerimos realizar pruebas antes de enviar masivamente", 'rows' : "2", 'id' : "mensaje" }}) }}
+                                </div>
+                            <div style="margin-top: 10px"></div>
+                            <!-- elegir el adecuado segun la cantidad de caracteres -->
+                        </div>
+
+                    </div>
+
+                    {{ form_rest(form) }}
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </div><!-- /.box -->
+                        {{ form_end(form) }}
+
+                    <!-- /.col-lg-12 -->
+            </div>
+                <!-- /.row -->
+        </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+ </div>
+
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+
+{% endblock %}

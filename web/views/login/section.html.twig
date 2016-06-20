@@ -1,0 +1,47 @@
+{% extends 'login/baselogin.html.twig' %}
+
+{% block container %}
+
+<div class="container" id="parent">
+
+  <div class="row vertical-center-row">
+	
+	<div class="col-md-4"></div>
+	
+	<div class="col-md-4" id="child">
+		{% include 'ag_alerts.html.twig' %}
+		<div class="login-form">
+			
+			<img src="{{ app.asset_path }}/img/Logo.png" alt="Smiley face" height="136" width="180">			
+			<!-- form start -->					
+            {{ form_start(form, {'method': 'POST'}) }}
+            {{ form_errors(form) }}
+			  <div class="form-group">
+				<label for="exampleInputEmail1"><!--Email address--></label>
+				<div class="input-group">
+				<span class="input-group-addon email-addon"><i class="fa fa-user"></i></span>
+				{{ form_widget(form.email, { attr: { 'class': 'form-control email', 'placeholder': 'E-mail'}}) }}
+				</div>
+			  </div>
+			  <div class="form-group">						
+				<label for="exampleInputPassword1"><!--Password--></label>
+				<div class="input-group">
+				<span class="input-group-addon password-addon"><i class="fa fa-key"></i></span>
+				{{ form_widget(form.password, { attr: { 'class': 'form-control password', 'placeholder': 'Password' }}) }}
+			  </div>
+			  </div>					  
+			  <div class="checkbox">
+				<label>
+				  <input type="checkbox"> Recordarme
+				</label>
+			  </div>					  
+			  <div class="clearfix"></div>	
+              {{ form_rest(form) }}			  				  
+			  <button type="submit" class="btn btn-custom"><i class="fa fa-sign-in"></i> Ingresar al Sistema</button>
+			{{ form_end(form) }}						
+		</div>				
+	</div>			
+	<div class="col-md-4"></div>			
+  </div>
+</div>
+{% endblock %}

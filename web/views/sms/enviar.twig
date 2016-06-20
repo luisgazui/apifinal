@@ -1,0 +1,73 @@
+{% extends 'ag_base/apis.html.twig' %}
+
+{% block container %}
+
+{% include 'ag_menusms.html.twig' with {'option': 'sms'}%}
+        <!-- Page Content -->
+
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row font-wow" style="margin-top: 25px">
+                    <div class="panel-body">
+                    
+                       
+                            {% include 'ag_alerts.html.twig' %}
+                            {{ form_start(form, {'method': 'POST'}) }}
+                            {{ form_errors(form) }}
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                    <div class='form-group'>
+                                        <label style="font-size: 15px" for="form_phone">Paises</label>
+                                        {{ form_widget(form.cod_area, { attr: { 'class': 'form-control selectpicker col-md-6',
+                                        'data-live-search' : "true" }}) }}
+                                    </div>
+                                </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <label style="font-size: 15px" for="form_phone">Telefono</label>
+                                    <!--input id="form_phone" type="tel" name="phone" class="form-control" placeholder="XXX - XXXXXXX"-->
+                                        {{ form_widget(form.telefono, { attr: { 'class': 'form-control col-md-6', 'placeholder' :"XXX - XXXXXXX", 'id' : "telefono" }}) }}
+                                    </div>
+                                </div>
+
+                                </div>
+
+                                <div class='form-group'>
+                                    
+                                    {{ form_widget(form.mensaje, { attr: { 'class': 'form-control col-md-6', 'placeholder' :"No mas de 60 caracteres...", 'rows' : "2", 'id' : "mensaje" }}) }}
+                                </div>
+                            <div style="margin-top: 12px"></div>
+                        </div>
+
+                   
+
+                    {{ form_rest(form) }}
+                    <div style="margin-top: 14px"></div>
+                <div style="margin-top: 20px" class="col-md-12 text-center">
+                    {{ form_rest(form) }}
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </div><!-- /.box -->
+                        {{ form_end(form) }}
+
+                    <!-- /.col-lg-12 -->
+            </div>
+                <!-- /.row -->
+       
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+ </div>
+
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+
+{% endblock %}

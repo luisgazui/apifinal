@@ -1,0 +1,103 @@
+{% extends 'ag_base/apis.html.twig' %}
+
+{% block container %}
+
+{% include 'ag_menusms.html.twig' with {'option': 'masivos'} %}
+        <!-- Page Content -->
+
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row font-wow" style="margin-top: 25px">
+                 <div class="col-md-12">
+                  <h2><i class="fa fa-whatsapp" aria-hidden="true"></i> Bienvenido al Módulo de SMS - Multiples Mensajes</h2>
+                 </div> 
+                  <div id="msj_alert"></div>  
+
+                  {% include 'ag_alerts.html.twig' %}
+                  {{ form_start(form, {'method': 'POST'}) }}
+                  {{ form_errors(form) }}
+                    <div class="col-md-12">
+                  <div>
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Inicio</a></li>
+                    <li><a target="blank_" href="{{ app.asset_path }}/formatoexcel/formatomulti.csv">Descargar Formato</a></li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="home">
+                         <br>  
+                        <div class="col-md-6">
+                          <div class="form-group">
+                              <div class='form-group'>
+                                <label style="font-size: 15px" for="form_phone">Paises</label>
+                                {{ form_widget(form.cod_area, { attr: { 'class': 'form-control selectpicker col-md-6',
+                                        'data-live-search' : "true" }}) }}
+                              </div>
+                          </div>  
+                        </div>  
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label style="font-size: 15px" for="form_phone">Archivo Excel Multiple</label>
+                            {{ form_widget(form.telefono, { attr: { 'class': 'form-control col-md-6', 'id' : "form_phone" }}) }}
+                           </div>  
+                        </div>  
+                        <div class="col-md-12">
+                         <div class="form-group">
+                            <label style="font-size: 15px" for="form_message">Mensaje</label>
+                            {{ form_widget(form.mensaje, { attr: { 'class': 'form-control col-md-6', 'placeholder' :"No mas de 60 caracteres...", 'rows' : "2", 'id' : "mensaje" }}) }}
+                            
+                            <!--
+                            <input type="hidden" name="cedular" value="584147470012">
+                            <div style="margin-top: 10px"></div>
+                            <!-- elegir el adecuado segun la cantidad de caracteres -->
+                            <br>
+
+                             
+                        </div>
+                      </div>
+                       <!--div class="col-md-12 text-center">
+                            <span class="badge text-center">Max<div id="restanumero">3000</div></span>
+                       </div-->
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="profile">
+                        <br>
+
+                        <div class="col-md-12 text-center">
+                              <div id="progressOuter" class="progress progress-striped active" style="display:none;">
+                                <div id="progressBar" class="progress-bar progress-bar-success"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                </div>
+                              </div>
+                            </div>
+       
+                              <div class="row" style="padding-top:10px;">
+                                  <div id="msgBox">
+                                  </div>
+                              </div>
+             
+                            <hr>  
+                    </div>
+                  
+                  </div>
+                  </div>
+                </div>
+            </div>
+
+                <div style="margin-top: 20px" class="col-md-12 text-center">
+                    {{ form_rest(form) }}
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                </div><!-- /.box -->
+                        {{ form_end(form) }}
+                   
+                    <!-- /.col-lg-12 -->
+            </div>
+                <!-- /.row -->
+        </div>
+{% endblock %}

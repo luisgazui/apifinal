@@ -1,0 +1,77 @@
+{% extends 'ag_base/apis.html.twig' %}
+
+{% block container %}
+
+    
+
+    <div class="wrapper row-offcanvas row-offcanvas-left">
+        {% include 'ag_menusms.html.twig' %}
+        <!-- Right side column. Contains the navbar and content of the page -->
+            <div id="page-wrapper">
+            <div class="container-fluid">
+               <div class="panel-body">
+            <section class="content-header">
+                <h1>
+                    Actualizar Perfil
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                {% include 'ag_alerts.html.twig' %}
+                
+                <div class="row">
+                    <div class="col-md-6">
+
+                        {{ form_start(form, {'method': 'POST'}) }}
+                            {{ form_errors(form) }}
+
+                            <div class="box box-info">
+                                <div class="box-header">
+                                    <h3 class="box-title"></h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+
+									<div class='form-group'>
+									    {{ form_label(form.nombres) }}
+									    {{ form_widget(form.nombres, { attr: { 'class': 'form-control' }}) }}
+									</div>
+
+									<div class='form-group'>
+									    {{ form_label(form.apellidos) }}
+									    {{ form_widget(form.apellidos, { attr: { 'class': 'form-control' }}) }}
+									</div>
+
+									<div class='form-group'>
+									    {{ form_label(form.email) }}
+									    {{ form_widget(form.email, { attr: { 'class': 'form-control' }}) }}
+									</div>
+
+									<div class='form-group'>
+									    {{ form_label(form.password) }}
+									    {{ form_widget(form.password, { attr: { 'class': 'form-control' }}) }}
+									</div>
+
+                                                 
+
+                                </div><!-- /.box-body -->
+
+                                {{ form_rest(form) }}
+
+                                <div class="box-footer">
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+
+                            </div><!-- /.box -->
+                        {{ form_end(form) }}
+
+
+                    </div>
+                </div>
+            </div>
+            </section><!-- /.content -->
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+
+{% endblock %}
