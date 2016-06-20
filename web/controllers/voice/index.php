@@ -12,6 +12,7 @@
 require_once __DIR__.'/../../../vendor/autoload.php';
 require_once __DIR__.'/../../../src/app.php';
 require_once __DIR__.'/../../vozapi/CalixtaAPI.php';
+require_once __DIR__.'/../../vozapi/SMS_CONFIG.php';
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -55,19 +56,13 @@ $app->match('/voice', function () use ($app) {
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $telfono= '+'.$data['cod_area'].$data['telefono'];
+            $telfono= $data['cod_area'].$data['telefono'];
             $mensaje= $data['mensaje'];
             $fecha= date("d/m/Y/H/i");
 
-             $idEnvio = $calixta->enviaMensajeVoz('5553711104', 'Mensaje de voz enviado para probar el componente php', '16/06/2016/10/45');
+             $idEnvio = $calixta->enviaMensajeVoz('5561123450', 'Mensaje de voz enviado para probar el componente php', '16/06/2016/10/45');
 			//$idEnvio = $calixta->enviaMensajeVoz('+'.$data['cod_area'].$data['telefono'],   			$data['mensaje']);
 
-
-			if ($idEnvio > 0) {
-			    echo 'Mensaje enviado con éxito. (', $idEnvio, ')';
-			  } else {
-			    echo 'Ocurrió un error al enviar el mensaje (', $idEnvio, ')';
-			  }
 
             $update_query = "INSERT INTO `bandeja_ent` (`remitente`, 
             									   `destinatario`,
@@ -94,13 +89,27 @@ $app->match('/voice', function () use ($app) {
             												$_SESSION['app'],
             												$_SESSION['id']));            
 
-
-            $app['session']->getFlashBag()->add(
+            if ($idEnvio > 0) {
+                 $app['session']->getFlashBag()->add(
+                    'success',
+                array(
+                    'message' => 'Mensaje Enviado! '.$idEnvio,
+                )
+            );
+              } else {
+                 $app['session']->getFlashBag()->add(
+                        'danger',
+                    array(
+                        'message' => 'Ocurrio Un error! '.$idEnvio,
+                )
+            );
+              }
+/*            $app['session']->getFlashBag()->add(
                 'success',
                 array(
                     'message' => 'Mensaje Enviado!',
                 )
-            );
+            );*/
             return $app->redirect($app['url_generator']->generate('voice'));
 
         }

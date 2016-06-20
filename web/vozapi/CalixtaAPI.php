@@ -1253,7 +1253,7 @@ class CalixtaAPI {
     private $cn=null; //curl handler.
     
     private function peticionV2($url, $params = null, $verb = 'POST'){
-        switch($this->connectionMethod){
+        switch(self::$METHOD_SOCKET){
             case self::$METHOD_FOPEN:
 			case self::$METHOD_SOCKET:
                 if ($params !== null) {
