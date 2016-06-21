@@ -16,19 +16,11 @@
                             {{ form_start(form, {'method': 'POST'}) }}
                             {{ form_errors(form) }}
 
-                                <div class="form-group">
-
-                                    <div class='form-group inline'>
-                                        <label style="font-size: 15px" for="form_phone">Paises</label>
-                                        {{ form_widget(form.cod_area, { attr: { 'class': 'form-control selectpicker col-md-6',
-                                        'data-live-search' : "true" }}) }}
-                                    </div>
-                                </div>
 
                                 <div class="form-group">
                                     <label style="font-size: 15px" for="form_phone">Telefono</label>
                                     <!--input id="form_phone" type="tel" name="phone" class="form-control" placeholder="XXX - XXXXXXX"-->
-                                    {{ form_widget(form.telefono, { attr: { 'class': 'form-control', 'placeholder' :"XXX - XXXXXXX", 'id' : "telefono" }}) }}
+                                    {{ form_widget(form.telefono, { attr: { 'class': 'form-control', 'placeholder' :"XXXXXXXXXX", 'id' : "telefono" }}) }}
                                 </div>
 
                                 </div>

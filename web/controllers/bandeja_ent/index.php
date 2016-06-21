@@ -6,7 +6,13 @@ require_once __DIR__.'/../../../src/app.php';
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-$app->match('/bandeja_ent/list', function (Symfony\Component\HttpFoundation\Request $request) use ($app) {  
+$app->match('/bandeja_ent/list/{buscar}', function ($buscar, Symfony\Component\HttpFoundation\Request $request) use ($app) { 
+    $session = new Session();
+    $session->start();
+    if (!isset($_SESSION['id'])){
+        return $app->redirect($app['url_generator']->generate('section'));
+    }
+
     $start = 0;
     $vars = $request->query->all();
     $qsStart = (int)$vars["start"];
@@ -33,38 +39,34 @@ $app->match('/bandeja_ent/list', function (Symfony\Component\HttpFoundation\Requ
     }
     
     $table_columns = array(
-		'id', 
-		'remitente', 
-		'destinatario', 
-		'estado', 
-		'fecha_envio', 
-		'mensaje', 
-		'recurso', 
-		'app_id', 
-		'usuario_id', 
-
+		'Destitatario', 
+		'Mensaje', 
+		'Fecha', 
+		'Estado', 
     );
-    
+        
+    $table_columns1 = array(
+        'id',
+        'destinatario', 
+        'mensaje', 
+        'fecha_envio', 
+        'estado', 
+    );
     $table_columns_type = array(
-		'bigint(20)', 
 		'varchar(255)', 
-		'varchar(255)', 
-		'varchar(30)', 
-		'datetime', 
 		'longtext', 
+		'datetime', 
 		'varchar(255)', 
-		'bigint(20)', 
-		'bigint(20)', 
-
     );    
     
     $whereClause = "";
     
     $i = 0;
-    foreach($table_columns as $col){
+    foreach($table_columns1 as $col){
         
         if ($i == 0) {
-           $whereClause = " WHERE";
+           $whereClause = " WHERE (usuario_id = '".$_SESSION['id'].
+                          "' AND app_id = $buscar) AND (";
         }
         
         if ($i > 0) {
@@ -75,12 +77,31 @@ $app->match('/bandeja_ent/list', function (Symfony\Component\HttpFoundation\Requ
         
         $i = $i + 1;
     }
+    $whereClause= $whereClause . ")";
+    $recordsTotal = $app['db']->executeQuery("SELECT
+                                            a.id AS id,
+                                            a.destinatario AS Destitatario,
+                                            a.mensaje AS Mensaje,
+                                            date_format(a.fecha_envio,'%d/%m/%Y') AS Fecha,
+                                            a.estado AS Estado
+                                            FROM
+                                            bandeja_ent AS a" 
+                                            . $whereClause 
+                                            . $orderClause)->rowCount();
     
-    $recordsTotal = $app['db']->executeQuery("SELECT * FROM `bandeja_ent`" . $whereClause . $orderClause)->rowCount();
-    
-    $find_sql = "SELECT * FROM `bandeja_ent`". $whereClause . $orderClause . " LIMIT ". $index . "," . $rowsPerPage;
+    $find_sql = "SELECT
+                a.id AS id,
+                a.destinatario AS Destitatario,
+                a.mensaje AS Mensaje,
+                date_format(a.fecha_envio,'%d/%m/%Y') AS Fecha,
+                a.estado AS Estado
+                FROM
+                bandeja_ent AS a" 
+                . $whereClause 
+                . $orderClause . 
+                " LIMIT ". $index . "," 
+                . $rowsPerPage;
     $rows_sql = $app['db']->fetchAll($find_sql, array());
-
     foreach($rows_sql as $row_key => $row_sql){
         for($i = 0; $i < count($table_columns); $i++){
 
@@ -147,26 +168,21 @@ $app->match('/bandeja_ent/download', function (Symfony\Component\HttpFoundation\
 
 
 
-$app->match('/bandeja_ent', function () use ($app) {
+$app->match('/bandeja_ent/{id}', function ($id) use ($app) {
     
-	$table_columns = array(
-		'id', 
-		'remitente', 
-		'destinatario', 
-		'estado', 
-		'fecha_envio', 
-		'mensaje', 
-		'recurso', 
-		'app_id', 
-		'usuario_id', 
-
+    $table_columns = array(
+        'Destitatario', 
+        'Mensaje', 
+        'Fecha', 
+        'Estado', 
     );
 
-    $primary_key = "id";	
+    $primary_key = "id";
 
     return $app['twig']->render('bandeja_ent/list.html.twig', array(
     	"table_columns" => $table_columns,
-        "primary_key" => $primary_key
+        "primary_key" => $primary_key,
+        "buscar" => $id
     ));
         
 })

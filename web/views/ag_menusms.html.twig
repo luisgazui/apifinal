@@ -43,7 +43,7 @@
                                     <a href="/sms">Envio de SMS</a>
                                 </li>
                                 <li>
-                                    <a href="#">Bandeja de Salida</a>
+                                    <a href="/bandeja_ent/3">Bandeja de Salida</a>
                                 </li>
                                 <li>
                                     <a href="/sms/masivos">Envio de SMS Masivos</a>
@@ -91,13 +91,10 @@
                                     <a href="/voice">Professional Voice</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Directorio</a>
+                                    <a href="/bandeja_ent/6">Bandeja de salida</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Borradores</a>
-                                </li>
-                                <li>
-                                    <a href="morris.html">Registro</a>
+                                    <a href="morris.html">Masivo</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -105,6 +102,9 @@
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
+                <div>
+                   Disponible en cuenta: {{app.session.get('total')}}
+                </div>
             </div>
             <!-- /.navbar-static-side -->
         </nav>

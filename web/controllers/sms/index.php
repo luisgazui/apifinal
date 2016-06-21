@@ -21,7 +21,8 @@ $app->match('/sms', function () use ($app) {
     
     $session = new Session();
     $session->start();
-    $aplicacion = '3';  
+
+    $_SESSION['app'] = '3';  
     if (!isset($_SESSION['id'])){
         return $app->redirect($app['url_generator']->generate('section'));
     }
@@ -34,7 +35,7 @@ $app->match('/sms', function () use ($app) {
 		'telefono' => '', 
 
     );
-    var_dump($_SESSION['total']);
+
     $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '$aplicacion'";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
     
@@ -46,12 +47,12 @@ $app->match('/sms', function () use ($app) {
 	$form = $form->add('mensaje', 'textarea', array('required' => true));
 	$form = $form->add('telefono', 'text', array('required' => true));
 
-    $find_sql = "SELECT cod_area, pais FROM `paises`";
+    $find_sql = "SELECT codigo, pais FROM `paises` order by pais";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
 
     $datos = array();
     foreach ($rows_sql as  $value) {
-       $datos[$value['cod_area']] = $value['pais'];
+       $datos[$value['codigo']] = $value['pais'];
     }
 
 	$form = $form->add('cod_area', 'choice', array('required' => true,
@@ -95,26 +96,28 @@ $app->match('/sms', function () use ($app) {
             												date("Y-m-d"),
             												$data['mensaje'],
             												'',
-            												'3',
+            												$aplicacion,
             												$_SESSION['id']));            
 
                 $update_query = "INSERT INTO `cuenta` (`egreso`, 
                                                        `usuario_id`) 
                                                       VALUES 
                                                       (?, ?)";
+
+                $app['db']->executeUpdate($update_query, array($costo, 
+                                                               $_SESSION['id'])); 
                     $find_sql = "SELECT
                                 Sum(a.ingreso) - Sum(a.egreso) AS total
                                 FROM
                                 cuenta AS a
                                 WHERE
-                                a.usuario_id = '$uid'";
+                                a.usuario_id = '".$_SESSION['id']."'";
                     $rows_sql = $app['db']->fetchAll($find_sql, array());
                     
                     foreach ($rows_sql as  $value) {
                        $_SESSION['total'] = $value['total'];
-                    }                                                         
-                $app['db']->executeUpdate($update_query, array($costo, 
-                                                               $_SESSION['id'])); 
+                       $session->set('total', $value['total']);
+                    }   
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
@@ -137,23 +140,28 @@ $app->match('/sms', function () use ($app) {
 
 
 $app->match('/sms/masivos', function () use ($app) {
-
-$client = new infobip\api\client\SendSingleTextualSms(new infobip\api\configuration\BasicAuthConfiguration
+    $session = new Session();
+    $session->start();
+    
+    $_SESSION['app'] = '3';  
+    if (!isset($_SESSION['id'])){
+        return $app->redirect($app['url_generator']->generate('section'));
+    }
+    $client = new infobip\api\client\SendSingleTextualSms(new infobip\api\configuration\BasicAuthConfiguration
     ('GonzalezL', 'Infobip1'));
     $initial_data = array(
         'mensaje' => '', 
         'cod_area'  => '', 
 
     );
-    $session = new Session();
-    $session->start();
-    $_SESSION['app'] = '3';  
-    if (!isset($_SESSION['id'])){
-        return $app->redirect($app['url_generator']->generate('section'));
+    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '$aplicacion'";
+    $rows_sql = $app['db']->fetchAll($find_sql, array());
+    
+    foreach ($rows_sql as  $value) {
+       $costo = $value['ncreditos'];
     }
 
     $carpeta    = __DIR__. "/tmp";
-    var_dump($carpeta);
     $form = $app['form.factory']->createBuilder('form', $initial_data);
     $form = $form->add('mensaje', 'textarea', array('required' => true));
     $form = $form->add('telefono', 'file', array('required' => true,
@@ -161,13 +169,14 @@ $client = new infobip\api\client\SendSingleTextualSms(new infobip\api\configurat
                                                 "accept" => ".csv",
                                                 )));
 
-    $find_sql = "SELECT cod_area, pais FROM `paises`";
+    $find_sql = "SELECT codigo, pais FROM `paises` order by pais";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
 
     $datos = array();
     foreach ($rows_sql as  $value) {
-       $datos[$value['cod_area']] = $value['pais'];
+       $datos[$value['codigo']] = $value['pais'];
     }
+
 
     $form = $form->add('cod_area', 'choice', array('required' => true,
         "choices" => $datos 
@@ -204,7 +213,6 @@ $client = new infobip\api\client\SendSingleTextualSms(new infobip\api\configurat
             $requestBody->setFrom('LauroGonzalez');
             $requestBody->setTo($data['cod_area'].$line);
             $requestBody->setText($data['mensaje']);
-            var_dump($requestBody);
             $response = $client->execute($requestBody);      
 
                     $update_query = "INSERT INTO `bandeja_ent` (`remitente`, 
@@ -227,10 +235,29 @@ $client = new infobip\api\client\SendSingleTextualSms(new infobip\api\configurat
                                                                     $data['cod_area'].$line, 
                                                                     'enviado',
                                                                     date("Y-m-d"),
-                                                                    $response,
+                                                                    $data['mensaje'],
                                                                     '',
-                                                                    '3',
-                                                                    '1'));            
+                                                                    $_SESSION['app'],
+                                                                    $_SESSION['id']));  
+                $update_query = "INSERT INTO `cuenta` (`egreso`, 
+                                                       `usuario_id`) 
+                                                      VALUES 
+                                                      (?, ?)";
+
+                $app['db']->executeUpdate($update_query, array($costo, 
+                                                               $_SESSION['id'])); 
+                    $find_sql = "SELECT
+                                Sum(a.ingreso) - Sum(a.egreso) AS total
+                                FROM
+                                cuenta AS a
+                                WHERE
+                                a.usuario_id = '".$_SESSION['id']."'";
+                    $rows_sql = $app['db']->fetchAll($find_sql, array());
+                    
+                    foreach ($rows_sql as  $value) {
+                       $_SESSION['total'] = $value['total'];
+                       $session->set('total', $value['total']);
+                    }                                                                                 
 
                 }
             }

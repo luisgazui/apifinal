@@ -30,24 +30,18 @@ $app->match('/voice', function () use ($app) {
 		'telefono' => '', 
 
     );
-
+    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '".$_SESSION['app']."'";
+    $rows_sql = $app['db']->fetchAll($find_sql, array());
+    
+    foreach ($rows_sql as  $value) {
+       $costo = $value['ncreditos'];
+    }
     $calixta = new CalixtaAPI();
 //var_dump(date("d/m/Y/H/i"));
     $form = $app['form.factory']->createBuilder('form', $initial_data);
 	$form = $form->add('mensaje', 'textarea', array('required' => true));
 	$form = $form->add('telefono', 'text', array('required' => true));
 
-    $find_sql = "SELECT cod_area, pais FROM `paises`";
-    $rows_sql = $app['db']->fetchAll($find_sql, array());
-
-    $datos = array();
-    foreach ($rows_sql as  $value) {
-       $datos[$value['cod_area']] = $value['pais'];
-    }
-
-	$form = $form->add('cod_area', 'choice', array('required' => true,
-        "choices" => $datos 
-        ));
     $form = $form->getForm();
 
     if("POST" == $app['request']->getMethod()){
@@ -56,11 +50,11 @@ $app->match('/voice', function () use ($app) {
 
         if ($form->isValid()) {
             $data = $form->getData();
-            $telfono= $data['cod_area'].$data['telefono'];
+            $telfono= $data['telefono'];
             $mensaje= $data['mensaje'];
             $fecha= date("d/m/Y/H/i");
 
-             $idEnvio = $calixta->enviaMensajeVoz('5561123450', 'Mensaje de voz enviado para probar el componente php', '16/06/2016/10/45');
+             $idEnvio = $calixta->enviaMensajeVoz($telfono, $mensaje, $fecha);
 			//$idEnvio = $calixta->enviaMensajeVoz('+'.$data['cod_area'].$data['telefono'],   			$data['mensaje']);
 
 
@@ -81,13 +75,32 @@ $app->match('/voice', function () use ($app) {
             									   			?,
             									   			?)";
             $app['db']->executeUpdate($update_query, array($_SESSION['email'],
-            												$data['cod_area'].$data['telefono'], 
+            												$data['telefono'], 
             												'enviado',
             												date("Y-m-d"),
             												$data['mensaje'],
             												'',
             												$_SESSION['app'],
-            												$_SESSION['id']));            
+            												$_SESSION['id']));   
+                $update_query = "INSERT INTO `cuenta` (`egreso`, 
+                                                       `usuario_id`) 
+                                                      VALUES 
+                                                      (?, ?)";
+
+                $app['db']->executeUpdate($update_query, array($costo, 
+                                                               $_SESSION['id'])); 
+                    $find_sql = "SELECT
+                                Sum(a.ingreso) - Sum(a.egreso) AS total
+                                FROM
+                                cuenta AS a
+                                WHERE
+                                a.usuario_id = '".$_SESSION['id']."'";
+                    $rows_sql = $app['db']->fetchAll($find_sql, array());
+                    
+                    foreach ($rows_sql as  $value) {
+                       $_SESSION['total'] = $value['total'];
+                       $session->set('total', $value['total']);
+                    }                                                                        
 
             if ($idEnvio > 0) {
                  $app['session']->getFlashBag()->add(
@@ -123,3 +136,117 @@ $app->match('/voice', function () use ($app) {
         
 })
 ->bind('voice');
+
+
+$app->match('/voice/masivos', function () use ($app) {
+    $session = new Session();
+    $session->start();
+    $_SESSION['app'] = '6';  
+    if (!isset($_SESSION['id'])){
+        return $app->redirect($app['url_generator']->generate('section'));
+    }
+    $initial_data = array(
+        'mensaje' => '', 
+        'cod_area'  => '', 
+
+    );
+    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '$aplicacion'";
+    $rows_sql = $app['db']->fetchAll($find_sql, array());
+    
+    foreach ($rows_sql as  $value) {
+       $costo = $value['ncreditos'];
+    }
+
+    $carpeta    = __DIR__. "/tmp";
+    $form = $app['form.factory']->createBuilder('form', $initial_data);
+    $form = $form->add('mensaje', 'textarea', array('required' => true));
+    $form = $form->add('telefono', 'file', array('required' => true,
+                                                "attr" => array(
+                                                "accept" => ".csv",
+                                                )));
+
+    $form = $form->getForm();
+
+    if("POST" == $app['request']->getMethod()){
+
+        $form->handleRequest($app["request"]);
+
+        if ($form->isValid()) {
+            $request = $app['request'];
+            $data = $form->getData();
+            $file=$data['telefono']->openFile('r');
+            while (!$file->eof()) { 
+                $file->next();
+                $line = $file->current(); 
+                if ((trim($line) != "") && (trim($line) != 'telefono')) {
+                    $telfono= $line;
+                    $mensaje= $data['mensaje'];
+                    $fecha= date("d/m/Y/H/i");
+
+                    $idEnvio = $calixta->enviaMensajeVoz($telfono, $mensaje, $fecha);
+
+                        $update_query = "INSERT INTO `bandeja_ent` (`remitente`, 
+                                                               `destinatario`,
+                                                               `estado`,
+                                                               `fecha_envio`,
+                                                               `mensaje`,
+                                                               `recurso`,
+                                                               `app_id`,
+                                                               `usuario_id`) 
+                                                               VALUES  (?, 
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?,
+                                                                        ?)";
+                        $app['db']->executeUpdate($update_query, array($_SESSION['email'],
+                                                                        .$line, 
+                                                                        'enviado',
+                                                                        date("Y-m-d"),
+                                                                        $mensaje,
+                                                                        '',
+                                                                        $_SESSION['app'],
+                                                                        $_SESSION['id'])); 
+                    $update_query = "INSERT INTO `cuenta` (`egreso`, 
+                                                           `usuario_id`) 
+                                                          VALUES 
+                                                          (?, ?)";
+
+                    $app['db']->executeUpdate($update_query, array($costo, 
+                                                                   $_SESSION['id'])); 
+                        $find_sql = "SELECT
+                                    Sum(a.ingreso) - Sum(a.egreso) AS total
+                                    FROM
+                                    cuenta AS a
+                                    WHERE
+                                    a.usuario_id = '".$_SESSION['id']."'";
+                        $rows_sql = $app['db']->fetchAll($find_sql, array());
+                        
+                        foreach ($rows_sql as  $value) {
+                           $_SESSION['total'] = $value['total'];
+                           $session->set('total', $value['total']);
+                        }                                                                                
+
+                }
+            }
+            $app['session']->getFlashBag()->add(
+                'success',
+                array(
+                    'message' => 'Mensaje Enviado!',
+                )
+            );
+            return $app->redirect($app['url_generator']->generate('masivos'));
+
+        }
+    }
+
+
+
+    return $app['twig']->render('sms/masivos.html.twig', array(
+        "form" => $form->createView()
+    ));
+        
+})
+->bind('masivos');

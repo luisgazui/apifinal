@@ -13,17 +13,6 @@
     </ul>
 </li>
 
-<li class="treeview {% if option is defined and (option == 'bandeja_ent_list' or option == 'bandeja_ent_create' or option == 'bandeja_ent_edit') %}active{% endif %}">
-    <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Bandeja de entrada</span>
-        <i class="fa pull-right fa-angle-right"></i>
-    </a>
-    <ul class="treeview-menu" style="display: none;">
-        <li {% if option is defined and option == 'bandeja_ent_list' %}class="active"{% endif %}><a href="{{ path('bandeja_ent_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
-    </ul>
-</li>
-
 <li class="treeview {% if option is defined and (option == 'creditos_list' or option == 'creditos_create' or option == 'creditos_edit') %}active{% endif %}">
     <a href="#">
         <i class="fa fa-folder-o"></i>
@@ -146,7 +135,7 @@
         <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="/com/apiwa.php" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Voz</a></li>
         <li {% if option is defined and option == 'usuarios_list' %}class="active"{% endif %}><a href="/com/apiwa.php" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> E-mail</a></li>
     </ul>
-         
+      <li {% if option is defined and option == 'salir' %}class="active"{% endif %}><a href="/salir" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Salir</a></li>
     </ul>
 </li>
 

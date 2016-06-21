@@ -17,6 +17,7 @@ $app->match('/bancos/list', function (Symfony\Component\HttpFoundation\Request $
             return $app->redirect($app['url_generator']->generate('enviar'));
         }
     }
+    
     $start = 0;
     $vars = $request->query->all();
     $qsStart = (int)$vars["start"];

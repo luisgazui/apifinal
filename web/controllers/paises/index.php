@@ -44,8 +44,8 @@ $app->match('/paises/list', function (Symfony\Component\HttpFoundation\Request $
     
     $table_columns = array(
         'id',
+		'codigo', 
 		'pais', 
-		'cod_area', 
 
     );
     

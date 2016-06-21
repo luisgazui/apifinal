@@ -85,6 +85,7 @@ $app->match('/', function () use ($app) {
 				    
 				    foreach ($rows_sql as  $value) {
 				       $_SESSION['total'] = $value['total'];
+				       $session->set('total', $value['total']);
 				    }	
 				    $session->save();				
 					//$twig->addGlobal("session", $_SESSION);
