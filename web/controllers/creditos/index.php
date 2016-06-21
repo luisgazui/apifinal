@@ -258,6 +258,7 @@ $app->match('/creditos/create', function () use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
+          try {
             $data = $form->getData();
 
             $update_query = "INSERT INTO `creditos` (`moneda_id`, `credito`) VALUES (?, ?)";
@@ -270,6 +271,16 @@ $app->match('/creditos/create', function () use ($app) {
                     'message' => 'Registro Guardado!',
                 )
             );
+            }
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+                return $app->redirect($app['url_generator']->generate('creditos_create'));
+            }            
             return $app->redirect($app['url_generator']->generate('creditos_list'));
 
         }
@@ -343,18 +354,27 @@ $app->match('/creditos/edit/{id}', function ($id) use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
-            $data = $form->getData();
-
-            $update_query = "UPDATE `creditos` SET `moneda_id` = ?, `credito` = ? WHERE `id` = ?";
-            $app['db']->executeUpdate($update_query, array($data['moneda_id'], $data['credito'], $id));            
-
-
-            $app['session']->getFlashBag()->add(
-                'success',
-                array(
-                    'message' => 'Registro Guardado!',
-                )
-            );
+          try {  
+                      $data = $form->getData();
+          
+                      $update_query = "UPDATE `creditos` SET `moneda_id` = ?, `credito` = ? WHERE `id` = ?";
+                      $app['db']->executeUpdate($update_query, array($data['moneda_id'], $data['credito'], $id));            
+          
+          
+                      $app['session']->getFlashBag()->add(
+                          'success',
+                          array(
+                              'message' => 'Registro Guardado!',
+                          )
+                      );}
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+            }
             return $app->redirect($app['url_generator']->generate('creditos_edit', array("id" => $id)));
 
         }

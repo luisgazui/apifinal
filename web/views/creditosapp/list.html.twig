@@ -21,7 +21,7 @@
 					}
 				],
 				rowCallback: function( row, data ) {
-					var actions = '<a href="creditosapp/edit/' + data.{{primary_key}} + '" class="btn btn-primary btn-xs">Editar</a> <a href="creditosapp/delete/' + data.{{primary_key}} + '" onclick="return confirm_delete();" class="btn btn-danger btn-xs">Eliminar</a>';
+					var actions = '<a href="creditosapp/edit/' + data.{{primary_key}} + '" class="btn btn-primary btn-xs">Editar</a>';
 					$('td:eq({{ table_columns|length }})', row).html( actions );
 				}
 			});
@@ -65,7 +65,6 @@
                             </div><!-- /.box-header -->
 
                             <div class="box-body table-responsive">
-                                <a class="btn btn-primary" href="{{ path('creditosapp_create') }}">Crear</a><br /><br />
                                 <table id="creditosapp_list" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>

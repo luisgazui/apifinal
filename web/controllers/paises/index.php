@@ -217,6 +217,7 @@ $app->match('/paises/create', function () use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
+          try {
             $data = $form->getData();
 
             $update_query = "INSERT INTO `paises` (`pais`, `codigo`) VALUES (?, ?)";
@@ -226,9 +227,19 @@ $app->match('/paises/create', function () use ($app) {
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
-                    'message' => 'paises created!',
+                    'message' => 'Registro Guardado!',
                 )
             );
+            }
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+                return $app->redirect($app['url_generator']->generate('paises_create'));
+            }            
             return $app->redirect($app['url_generator']->generate('paises_list'));
 
         }
@@ -289,18 +300,28 @@ $app->match('/paises/edit/{id}', function ($id) use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
-            $data = $form->getData();
-
-            $update_query = "UPDATE `paises` SET `pais` = ?, `codigo` = ? WHERE `id` = ?";
-            $app['db']->executeUpdate($update_query, array($data['pais'], $data['cod_area'], $id));            
-
-
-            $app['session']->getFlashBag()->add(
-                'success',
-                array(
-                    'message' => 'pais editado!',
-                )
-            );
+          try {
+                      $data = $form->getData();
+          
+                      $update_query = "UPDATE `paises` SET `pais` = ?, `codigo` = ? WHERE `id` = ?";
+                      $app['db']->executeUpdate($update_query, array($data['pais'], $data['cod_area'], $id));            
+          
+          
+                      $app['session']->getFlashBag()->add(
+                          'success',
+                          array(
+                              'message' => 'pais editado!',
+                          )
+                      );
+                  }
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+            }
             return $app->redirect($app['url_generator']->generate('paises_edit', array("id" => $id)));
 
         }

@@ -252,6 +252,7 @@ $app->match('/cuentas_bancos/create', function () use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
+          try {
             $data = $form->getData();
 
             $update_query = "INSERT INTO `cuentas_bancos` (`Cuenta`, `Banco_id`, `Moneda_id`) VALUES (?, ?, ?)";
@@ -266,6 +267,16 @@ $app->match('/cuentas_bancos/create', function () use ($app) {
                     'message' => 'Registro Guardado!',
                 )
             );
+            }
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+                return $app->redirect($app['url_generator']->generate('cuentas_bancos_create'));
+            }            
             return $app->redirect($app['url_generator']->generate('cuentas_bancos_list'));
 
         }
@@ -354,18 +365,27 @@ $form = $form->add('Cuenta', 'text', array('required' => true,
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
-            $data = $form->getData();
-
-            $update_query = "UPDATE `cuentas_bancos` SET `Cuenta` = ?, `Banco_id` = ?, `Moneda_id` = ? WHERE `id` = ?";
-            $app['db']->executeUpdate($update_query, array($data['Cuenta'], $data['Banco_id'], $data['Moneda_id'], $id));            
-
-
-            $app['session']->getFlashBag()->add(
-                'success',
-                array(
-                    'message' => 'Registro Guardado!',
-                )
-            );
+          try{
+                      $data = $form->getData();
+          
+                      $update_query = "UPDATE `cuentas_bancos` SET `Cuenta` = ?, `Banco_id` = ?, `Moneda_id` = ? WHERE `id` = ?";
+                      $app['db']->executeUpdate($update_query, array($data['Cuenta'], $data['Banco_id'], $data['Moneda_id'], $id));            
+          
+          
+                      $app['session']->getFlashBag()->add(
+                          'success',
+                          array(
+                              'message' => 'Registro Guardado!',
+                          )
+                      );}
+          catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+            }
             return $app->redirect($app['url_generator']->generate('cuentas_bancos_edit', array("id" => $id)));
 
         }

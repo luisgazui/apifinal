@@ -585,54 +585,63 @@ $app->match('/pagos/edit/{id}', function ($id) use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
-            $data = $form->getData();
-
-            $update_query = "UPDATE `pagos` SET 
-                            `created_at` = ?, 
-                            `cantidad` = ?,
-                            `Referencia`= ?, 
-                            `aprobado` = ?,  
-                            `usuario_id` = ?,
-                            `cuenta_id` = ?
-                            WHERE 
-                            `id` = ?";
-            $app['db']->executeUpdate($update_query, array($data['created_at'], 
-                                                           $data['cantidad'], 
-                                                           $data['Referencia'],
-                                                           $data['aprobado'], 
-                                                           $data['usuario_id'],
-                                                           $data['cuenta_id'], 
-                                                           $id));            
-
-                if (($oldaprobado != $data['aprobado']) && ($data['aprobado'])) {
-                    $cuenta= $data['cuenta_id'];
-                    $sqlcredito =  "SELECT
-                                        a.credito
-                                    FROM
-                                        creditos AS a
-                                    INNER JOIN cuentas_bancos AS b ON a.moneda_id = b.Moneda_id
-                                       WHERE
-                                        b.id = '$cuenta'" ;
-
-                    $rows_sql = $app['db']->fetchAll($sqlcredito, array());
-                    
-                    foreach ($rows_sql as  $value) {
-                       $calculo = $value['credito'] * $data['cantidad'];
-                    } 
-                    $update_query = "INSERT INTO `cuenta` (`ingreso`, 
-                                                       `usuario_id`) 
-                                                      VALUES 
-                                                      (?, ?)";
-                $app['db']->executeUpdate($update_query, array($calculo, 
-                                                               $_SESSION['id'])); 
-                } 
-
-            $app['session']->getFlashBag()->add(
-                'success',
-                array(
-                    'message' => 'Pago Actualizado!',
-                )
-            );
+          try {
+                      $data = $form->getData();
+          
+                      $update_query = "UPDATE `pagos` SET 
+                                      `created_at` = ?, 
+                                      `cantidad` = ?,
+                                      `Referencia`= ?, 
+                                      `aprobado` = ?,  
+                                      `usuario_id` = ?,
+                                      `cuenta_id` = ?
+                                      WHERE 
+                                      `id` = ?";
+                      $app['db']->executeUpdate($update_query, array($data['created_at'], 
+                                                                     $data['cantidad'], 
+                                                                     $data['Referencia'],
+                                                                     $data['aprobado'], 
+                                                                     $data['usuario_id'],
+                                                                     $data['cuenta_id'], 
+                                                                     $id));            
+          
+                          if (($oldaprobado != $data['aprobado']) && ($data['aprobado'])) {
+                              $cuenta= $data['cuenta_id'];
+                              $sqlcredito =  "SELECT
+                                                  a.credito
+                                              FROM
+                                                  creditos AS a
+                                              INNER JOIN cuentas_bancos AS b ON a.moneda_id = b.Moneda_id
+                                                 WHERE
+                                                  b.id = '$cuenta'" ;
+          
+                              $rows_sql = $app['db']->fetchAll($sqlcredito, array());
+                              
+                              foreach ($rows_sql as  $value) {
+                                 $calculo = $value['credito'] * $data['cantidad'];
+                              } 
+                              $update_query = "INSERT INTO `cuenta` (`ingreso`, 
+                                                                 `usuario_id`) 
+                                                                VALUES 
+                                                                (?, ?)";
+                          $app['db']->executeUpdate($update_query, array($calculo, 
+                                                                         $_SESSION['id'])); 
+                          } 
+          
+                      $app['session']->getFlashBag()->add(
+                          'success',
+                          array(
+                              'message' => 'Pago Actualizado!',
+                          )
+                      );}
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+            }                      
             return $app->redirect($app['url_generator']->generate('pagos_edit', array("id" => $id)));
 
         }

@@ -261,6 +261,7 @@ $app->match('/bancos/create', function () use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
+          try {
             $data = $form->getData();
 
             $update_query = "INSERT INTO `bancos` (`banco`, `pais_id`) VALUES (?, ?)";
@@ -273,6 +274,16 @@ $app->match('/bancos/create', function () use ($app) {
                     'message' => 'Registro Guardado!',
                 )
             );
+          }
+          catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+                return $app->redirect($app['url_generator']->generate('bancos_create'));
+            }
             return $app->redirect($app['url_generator']->generate('bancos_list'));
 
         }
@@ -345,18 +356,27 @@ $app->match('/bancos/edit/{id}', function ($id) use ($app) {
         $form->handleRequest($app["request"]);
 
         if ($form->isValid()) {
-            $data = $form->getData();
-
-            $update_query = "UPDATE `bancos` SET `banco` = ?, `pais_id` = ? WHERE `id` = ?";
-            $app['db']->executeUpdate($update_query, array($data['banco'], $data['pais_id'], $id));            
-
-
-            $app['session']->getFlashBag()->add(
-                'success',
-                array(
-                    'message' => 'Registro Actualizado!',
-                )
-            );
+          try{
+                      $data = $form->getData();
+          
+                      $update_query = "UPDATE `bancos` SET `banco` = ?, `pais_id` = ? WHERE `id` = ?";
+                      $app['db']->executeUpdate($update_query, array($data['banco'], $data['pais_id'], $id));            
+          
+          
+                      $app['session']->getFlashBag()->add(
+                          'success',
+                          array(
+                              'message' => 'Registro Actualizado!',
+                          )
+                      );}
+            catch (Exception $e) {
+                $app['session']->getFlashBag()->add(
+                    'danger',
+                    array(
+                        'message' => 'Revise sus datos!',
+                    )
+                );
+            }
             return $app->redirect($app['url_generator']->generate('bancos_edit', array("id" => $id)));
 
         }
