@@ -215,18 +215,19 @@ $app->match('/cuentas_bancos/create', function () use ($app) {
 
 
 
-	$form = $form->add('Cuenta', 'text', array('required' => true));
-	
-    $find_sql = "SELECT id, banco FROM `bancos`";
+	$form = $form->add('Cuenta', 'text', array('required' => true,
+        'label' => 'Nro. Cuenta' ));
+   $find_sql = "SELECT id, banco FROM `bancos`";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
-
+    
     $datos = array();
     foreach ($rows_sql as  $value) {
        $datos[$value['id']] = $value['banco'];
     }
 
     $form = $form->add('Banco_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Banco'  
         ));
 
     $find_sql = "SELECT id, CONCAT(moneda,  ' ', simbolo) Nombre  FROM `monedas`";
@@ -238,7 +239,8 @@ $app->match('/cuentas_bancos/create', function () use ($app) {
     }
 
     $form = $form->add('Moneda_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Moneda'  
         ));
 
 
@@ -314,9 +316,35 @@ $app->match('/cuentas_bancos/edit/{id}', function ($id) use ($app) {
     $form = $app['form.factory']->createBuilder('form', $initial_data);
 
 
-	$form = $form->add('Cuenta', 'text', array('required' => true));
-	$form = $form->add('Banco_id', 'text', array('required' => true));
-	$form = $form->add('Moneda_id', 'text', array('required' => true));
+$form = $form->add('Cuenta', 'text', array('required' => true,
+        'label' => 'Nro. Cuenta' ));
+   $find_sql = "SELECT id, banco FROM `bancos`";
+    $rows_sql = $app['db']->fetchAll($find_sql, array());
+    
+    $datos = array();
+    foreach ($rows_sql as  $value) {
+       $datos[$value['id']] = $value['banco'];
+    }
+
+    $form = $form->add('Banco_id', 'choice', array('required' => true,
+        "choices" => $datos,
+        'label' => 'Banco'  
+        ));
+
+    $find_sql = "SELECT id, CONCAT(moneda,  ' ', simbolo) Nombre  FROM `monedas`";
+    $rows_sql = $app['db']->fetchAll($find_sql, array());
+
+    $datos = array();
+    foreach ($rows_sql as  $value) {
+       $datos[$value['id']] = $value['Nombre'];
+    }
+
+    $form = $form->add('Moneda_id', 'choice', array('required' => true,
+        "choices" => $datos,
+        'label' => 'Moneda'  
+        ));
+
+
 
 
     $form = $form->getForm();
@@ -374,7 +402,7 @@ $app->match('/cuentas_bancos/delete/{id}', function ($id) use ($app) {
         $app['session']->getFlashBag()->add(
             'success',
             array(
-                'message' => 'cuentas_bancos deleted!',
+                'message' => 'Registro Borrado!',
             )
         );
     }

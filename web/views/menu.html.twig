@@ -35,38 +35,6 @@
     </ul>
 </li>
 
-<li class="treeview {% if option is defined and (option == 'cuenta_list' or option == 'cuenta_create' or option == 'cuenta_edit') %}active{% endif %}">
-    <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Cuentas</span>
-        <i class="fa pull-right fa-angle-right"></i>
-    </a>
-    <ul class="treeview-menu" style="display: none;">
-        <li {% if option is defined and option == 'cuenta_list' %}class="active"{% endif %}><a href="{{ path('cuenta_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
-    </ul>
-</li>
-
-<li class="treeview {% if option is defined and (option == 'direccion_app_list' or option == 'direccion_app_create' or option == 'direccion_app_edit') %}active{% endif %}">
-    <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Asignar direcciones a aplicaciones</span>
-        <i class="fa pull-right fa-angle-right"></i>
-    </a>
-    <ul class="treeview-menu" style="display: none;">
-        <li {% if option is defined and option == 'direccion_app_list' %}class="active"{% endif %}><a href="{{ path('direccion_app_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
-    </ul>
-</li>
-
-<li class="treeview {% if option is defined and (option == 'directorio_list' or option == 'directorio_create' or option == 'directorio_edit') %}active{% endif %}">
-    <a href="#">
-        <i class="fa fa-folder-o"></i>
-        <span>Directorios</span>
-        <i class="fa pull-right fa-angle-right"></i>
-    </a>
-    <ul class="treeview-menu" style="display: none;">
-        <li {% if option is defined and option == 'directorio_list' %}class="active"{% endif %}><a href="{{ path('directorio_list') }}" style="margin-left: 10px;"><i class="fa fa-angle-double-right"></i> Lista</a></li>
-    </ul>
-</li>
 
 <li class="treeview {% if option is defined and (option == 'monedas_list' or option == 'monedas_create' or option == 'monedas_edit') %}active{% endif %}">
     <a href="#">

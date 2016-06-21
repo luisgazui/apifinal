@@ -170,7 +170,7 @@ $app->match('/paises', function () use ($app) {
     }    
 	$table_columns = array(
 		'pais', 
-		'cod_area', 
+		'codigo', 
 
     );
 
@@ -219,7 +219,7 @@ $app->match('/paises/create', function () use ($app) {
         if ($form->isValid()) {
             $data = $form->getData();
 
-            $update_query = "INSERT INTO `paises` (`pais`, `cod_area`) VALUES (?, ?)";
+            $update_query = "INSERT INTO `paises` (`pais`, `codigo`) VALUES (?, ?)";
             $app['db']->executeUpdate($update_query, array($data['pais'], $data['cod_area']));            
 
 
@@ -270,7 +270,7 @@ $app->match('/paises/edit/{id}', function ($id) use ($app) {
     
     $initial_data = array(
 		'pais' => $row_sql['pais'], 
-		'cod_area' => $row_sql['cod_area'], 
+		'cod_area' => $row_sql['codigo'], 
 
     );
 
@@ -291,14 +291,14 @@ $app->match('/paises/edit/{id}', function ($id) use ($app) {
         if ($form->isValid()) {
             $data = $form->getData();
 
-            $update_query = "UPDATE `paises` SET `pais` = ?, `cod_area` = ? WHERE `id` = ?";
+            $update_query = "UPDATE `paises` SET `pais` = ?, `codigo` = ? WHERE `id` = ?";
             $app['db']->executeUpdate($update_query, array($data['pais'], $data['cod_area'], $id));            
 
 
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
-                    'message' => 'paises edited!',
+                    'message' => 'pais editado!',
                 )
             );
             return $app->redirect($app['url_generator']->generate('paises_edit', array("id" => $id)));
@@ -337,7 +337,7 @@ $app->match('/paises/delete/{id}', function ($id) use ($app) {
         $app['session']->getFlashBag()->add(
             'success',
             array(
-                'message' => 'paises deleted!',
+                'message' => 'pais borrado!',
             )
         );
     }

@@ -207,8 +207,10 @@ $app->match('/monedas/create', function () use ($app) {
     $form = $app['form.factory']->createBuilder('form', $initial_data);
 
 
-	$form = $form->add('moneda', 'text', array('required' => true));
-	$form = $form->add('simbolo', 'text', array('required' => true));
+	$form = $form->add('moneda', 'text', array('required' => true,
+        'label' => 'Moneda' ));
+	$form = $form->add('simbolo', 'text', array('required' => true,
+        'label' => 'Simbolo' ));
 
 
     $form = $form->getForm();

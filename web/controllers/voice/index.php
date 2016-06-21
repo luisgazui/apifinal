@@ -101,7 +101,7 @@ $app->match('/voice', function () use ($app) {
                        $_SESSION['total'] = $value['total'];
                        $session->set('total', $value['total']);
                     }                                                                        
-
+                    $session->save();
             if ($idEnvio > 0) {
                  $app['session']->getFlashBag()->add(
                     'success',
@@ -150,7 +150,7 @@ $app->match('/voice/masivos', function () use ($app) {
         'cod_area'  => '', 
 
     );
-    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '$aplicacion'";
+    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '".$_SESSION['app']."'";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
     
     foreach ($rows_sql as  $value) {
@@ -202,7 +202,7 @@ $app->match('/voice/masivos', function () use ($app) {
                                                                         ?,
                                                                         ?)";
                         $app['db']->executeUpdate($update_query, array($_SESSION['email'],
-                                                                        .$line, 
+                                                                        $line, 
                                                                         'enviado',
                                                                         date("Y-m-d"),
                                                                         $mensaje,
@@ -228,7 +228,7 @@ $app->match('/voice/masivos', function () use ($app) {
                            $_SESSION['total'] = $value['total'];
                            $session->set('total', $value['total']);
                         }                                                                                
-
+                        $session->save();
                 }
             }
             $app['session']->getFlashBag()->add(
@@ -237,16 +237,16 @@ $app->match('/voice/masivos', function () use ($app) {
                     'message' => 'Mensaje Enviado!',
                 )
             );
-            return $app->redirect($app['url_generator']->generate('masivos'));
+            return $app->redirect($app['url_generator']->generate('vmasivos'));
 
         }
     }
 
 
 
-    return $app['twig']->render('sms/masivos.html.twig', array(
+    return $app['twig']->render('voice/masivos.html.twig', array(
         "form" => $form->createView()
     ));
         
 })
-->bind('masivos');
+->bind('vmasivos');

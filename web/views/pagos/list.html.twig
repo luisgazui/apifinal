@@ -21,14 +21,14 @@
 					}
 				],
 				rowCallback: function( row, data ) {
-					var actions = '<a href="pagos/edit/' + data.{{primary_key}} + '" class="btn btn-primary btn-xs">Edit</a> <a href="pagos/delete/' + data.{{primary_key}} + '" onclick="return confirm_delete();" class="btn btn-danger btn-xs">Delete</a>';
+					var actions = '<a href="pagos/edit/' + data.{{primary_key}} + '" class="btn btn-primary btn-xs">Editar</a> <a href="pagos/delete/' + data.{{primary_key}} + '" onclick="return confirm_delete();" class="btn btn-danger btn-xs">Borrar</a>';
 					$('td:eq({{ table_columns|length }})', row).html( actions );
 				}
 			});
         });
 
         function confirm_delete(){
-            if(!confirm("Are you sure? This action cannot be undone.")) { 
+            if(!confirm("Estas Seguro de Borrar?.")) { 
                 return false;
             }
         }
@@ -65,7 +65,7 @@
                             </div><!-- /.box-header -->
 
                             <div class="box-body table-responsive">
-                                <a class="btn btn-primary" href="{{ path('pagos_create') }}">Create new pagos</a><br /><br />
+                                <a class="btn btn-primary" href="{{ path('pagos_create') }}">Crear</a><br /><br />
                                 <table id="pagos_list" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>

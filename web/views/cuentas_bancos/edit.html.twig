@@ -39,12 +39,14 @@
 
 									<div class='form-group'>
 									    {{ form_label(form.Banco_id) }}
-									    {{ form_widget(form.Banco_id, { attr: { 'class': 'form-control' }}) }}
+									    {{ form_widget(form.Banco_id, { attr: { 'class': 'form-control selectpicker col-md-6',
+                                        'data-live-search' : "true" }}) }}
 									</div>
 
 									<div class='form-group'>
 									    {{ form_label(form.Moneda_id) }}
-									    {{ form_widget(form.Moneda_id, { attr: { 'class': 'form-control' }}) }}
+									    {{ form_widget(form.Moneda_id, { attr: { 'class': 'form-control selectpicker col-md-6',
+                                        'data-live-search' : "true" }}) }}
 									</div>
 
                                                  
@@ -54,7 +56,7 @@
                                 {{ form_rest(form) }}
 
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
                                 </div>
 
                             </div><!-- /.box -->

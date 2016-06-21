@@ -266,10 +266,14 @@ $app->match('/pagos/create', function () use ($app) {
     );
 
     $form = $app['form.factory']->createBuilder('form', $initial_data);
-	$form = $form->add('created_at', 'text', array('required' => true));
-	$form = $form->add('cantidad', 'number', array('required' => true));
-    $form = $form->add('Referencia', 'text', array('required' => true));
-	$form = $form->add('aprobado', 'checkbox', array('required' => false));
+	$form = $form->add('created_at', 'text', array('required' => true,
+        'label' => 'Fecha' ));
+	$form = $form->add('cantidad', 'number', array('required' => true,
+        'label' => 'Monto' ));
+    $form = $form->add('Referencia', 'text', array('required' => true,
+        'label' => 'Referencia' ));
+	$form = $form->add('aprobado', 'checkbox', array('required' => false,
+        'label' => 'Pago Aprobado' ));
 
     $find_sql = "SELECT id, email FROM `usuarios`";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
@@ -280,7 +284,8 @@ $app->match('/pagos/create', function () use ($app) {
     }
 
     $form = $form->add('usuario_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Usuario'  
         ));
 
     $find_sql = "SELECT
@@ -298,7 +303,8 @@ $app->match('/pagos/create', function () use ($app) {
     }
 
     $form = $form->add('cuenta_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Cuenta Bancaria' 
         ));
 
     $form = $form->getForm();
@@ -400,9 +406,12 @@ $app->match('/pagos/registrar', function () use ($app) {
 
     $form = $app['form.factory']->createBuilder('form', $initial_data);
    
-    $form = $form->add('created_at', 'text', array('required' => true));
-    $form = $form->add('cantidad', 'number', array('required' => true));
-    $form = $form->add('Referencia', 'text', array('required' => true));
+    $form = $form->add('created_at', 'text', array('required' => true,
+        'label' => 'Fecha' ));
+    $form = $form->add('cantidad', 'number', array('required' => true,
+        'label' => 'Monto' ));
+    $form = $form->add('Referencia', 'text', array('required' => true,
+        'label' => 'Referencia' ));
 
 
     $find_sql = "SELECT
@@ -420,7 +429,8 @@ $app->match('/pagos/registrar', function () use ($app) {
     }
 
     $form = $form->add('cuenta_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Cuenta Bancaria'  
         ));
 
 
@@ -526,10 +536,14 @@ $app->match('/pagos/edit/{id}', function ($id) use ($app) {
     $oldaprobado = $aprobado;
 
     $form = $app['form.factory']->createBuilder('form', $initial_data);
-    $form = $form->add('created_at', 'text', array('required' => true));
-    $form = $form->add('cantidad', 'number', array('required' => true));
-    $form = $form->add('Referencia', 'text', array('required' => true));
+    $form = $form->add('created_at', 'text', array('required' => true,
+        'label' => 'Fecha' ));
+    $form = $form->add('cantidad', 'number', array('required' => true,
+        'label' => 'Monto' ));
+    $form = $form->add('Referencia', 'text', array('required' => true,
+        'label' => 'Referencia' ));
     $form = $form->add('aprobado', 'checkbox', array('required' => false,
+                                                     'label' => 'Pago Aprobado', 
                                                      'disabled' => $aprobado));
 
     $find_sql = "SELECT id, email FROM `usuarios`";
@@ -655,7 +669,7 @@ $app->match('/pagos/delete/{id}', function ($id) use ($app) {
         $app['session']->getFlashBag()->add(
             'success',
             array(
-                'message' => 'pagos deleted!',
+                'message' => 'Registro Borrado!',
             )
         );
     }

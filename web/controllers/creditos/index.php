@@ -241,12 +241,14 @@ $app->match('/creditos/create', function () use ($app) {
     }
 
     $form = $form->add('moneda_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Moneda' 
         ));
 
 	//$form = $form->add('moneda_id', 'text', array('required' => true));
 
-	$form = $form->add('credito', 'text', array('required' => true));
+	$form = $form->add('credito', 'text', array('required' => true,
+        'label' => 'Credito'));
 
 
     $form = $form->getForm();
@@ -265,7 +267,7 @@ $app->match('/creditos/create', function () use ($app) {
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
-                    'message' => 'creditos created!',
+                    'message' => 'Registro Guardado!',
                 )
             );
             return $app->redirect($app['url_generator']->generate('creditos_list'));
@@ -325,11 +327,13 @@ $app->match('/creditos/edit/{id}', function ($id) use ($app) {
     }
 
     $form = $form->add('moneda_id', 'choice', array('required' => true,
-        "choices" => $datos 
+        "choices" => $datos,
+        'label' => 'Moneda'  
         ));
 
     //$form = $form->add('moneda_id', 'text', array('required' => true));
-	$form = $form->add('credito', 'text', array('required' => true));
+	$form = $form->add('credito', 'text', array('required' => true,
+        'label' => 'Creditos' ));
 
 
     $form = $form->getForm();
@@ -348,7 +352,7 @@ $app->match('/creditos/edit/{id}', function ($id) use ($app) {
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
-                    'message' => 'creditos edited!',
+                    'message' => 'Registro Guardado!',
                 )
             );
             return $app->redirect($app['url_generator']->generate('creditos_edit', array("id" => $id)));
@@ -388,7 +392,7 @@ $app->match('/creditos/delete/{id}', function ($id) use ($app) {
         $app['session']->getFlashBag()->add(
             'success',
             array(
-                'message' => 'creditos deleted!',
+                'message' => 'Registro Eliminado!',
             )
         );
     }

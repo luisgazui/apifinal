@@ -234,15 +234,18 @@ $app->match('/creditosapp/create', function () use ($app) {
 	        'required' => true,
 	        'choices' => $options,
 	        'expanded' => false,
-	        'constraints' => new Assert\Choice(array_keys($options))
+	        'constraints' => new Assert\Choice(array_keys($options)),
+            'label' => 'Aplicacion' 
 	    ));
 	}
 	else{
-	    $form = $form->add('app_id', 'text', array('required' => true));
+	    $form = $form->add('app_id', 'text', array('required' => true,
+            'label' => 'Aplicacion' ));
 	}
 
 
-	$form = $form->add('ncreditos', 'text', array('required' => true));
+	$form = $form->add('ncreditos', 'text', array('required' => true,
+        'label' => 'Creditos' ));
 
 
     $form = $form->getForm();
@@ -261,7 +264,7 @@ $app->match('/creditosapp/create', function () use ($app) {
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
-                    'message' => 'creditosapp created!',
+                    'message' => 'Registro Guardado!',
                 )
             );
             return $app->redirect($app['url_generator']->generate('creditosapp_list'));
@@ -324,15 +327,18 @@ $app->match('/creditosapp/edit/{id}', function ($id) use ($app) {
 	        'required' => true,
 	        'choices' => $options,
 	        'expanded' => false,
+            'label' => 'Aplicacion', 
 	        'constraints' => new Assert\Choice(array_keys($options))
 	    ));
 	}
 	else{
-	    $form = $form->add('app_id', 'text', array('required' => true));
+	    $form = $form->add('app_id', 'text', array('required' => true,
+            'label' => 'Aplicacion' ));
 	}
 
 
-	$form = $form->add('ncreditos', 'text', array('required' => true));
+	$form = $form->add('ncreditos', 'text', array('required' => true,
+        'label' => 'Creditos' ));
 
 
     $form = $form->getForm();
@@ -351,7 +357,7 @@ $app->match('/creditosapp/edit/{id}', function ($id) use ($app) {
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
-                    'message' => 'creditosapp edited!',
+                    'message' => 'Registro Guardado!',
                 )
             );
             return $app->redirect($app['url_generator']->generate('creditosapp_edit', array("id" => $id)));
@@ -391,7 +397,7 @@ $app->match('/creditosapp/delete/{id}', function ($id) use ($app) {
         $app['session']->getFlashBag()->add(
             'success',
             array(
-                'message' => 'creditosapp deleted!',
+                'message' => 'Registro Borrado!',
             )
         );
     }

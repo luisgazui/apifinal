@@ -36,9 +36,8 @@ $app->match('/sms', function () use ($app) {
 
     );
 
-    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '$aplicacion'";
+    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '".$_SESSION['app']."'";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
-    
     foreach ($rows_sql as  $value) {
        $costo = $value['ncreditos'];
     }
@@ -96,7 +95,7 @@ $app->match('/sms', function () use ($app) {
             												date("Y-m-d"),
             												$data['mensaje'],
             												'',
-            												$aplicacion,
+            												$_SESSION['app'],
             												$_SESSION['id']));            
 
                 $update_query = "INSERT INTO `cuenta` (`egreso`, 
@@ -117,7 +116,8 @@ $app->match('/sms', function () use ($app) {
                     foreach ($rows_sql as  $value) {
                        $_SESSION['total'] = $value['total'];
                        $session->set('total', $value['total']);
-                    }   
+                    }
+                    $session->save();   
             $app['session']->getFlashBag()->add(
                 'success',
                 array(
@@ -154,7 +154,7 @@ $app->match('/sms/masivos', function () use ($app) {
         'cod_area'  => '', 
 
     );
-    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '$aplicacion'";
+    $find_sql = "SELECT ncreditos FROM `creditosapp` WHERE app_id= '".$_SESSION['app']."'";
     $rows_sql = $app['db']->fetchAll($find_sql, array());
     
     foreach ($rows_sql as  $value) {
@@ -258,7 +258,7 @@ $app->match('/sms/masivos', function () use ($app) {
                        $_SESSION['total'] = $value['total'];
                        $session->set('total', $value['total']);
                     }                                                                                 
-
+                    $session->save();
                 }
             }
             $app['session']->getFlashBag()->add(
