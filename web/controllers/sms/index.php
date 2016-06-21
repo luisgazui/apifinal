@@ -45,18 +45,6 @@ $app->match('/sms', function () use ($app) {
     $form = $app['form.factory']->createBuilder('form', $initial_data);
 	$form = $form->add('mensaje', 'textarea', array('required' => true));
 	$form = $form->add('telefono', 'text', array('required' => true));
-
-    $find_sql = "SELECT codigo, pais FROM `paises` order by pais";
-    $rows_sql = $app['db']->fetchAll($find_sql, array());
-
-    $datos = array();
-    foreach ($rows_sql as  $value) {
-       $datos[$value['codigo']] = $value['pais'];
-    }
-
-	$form = $form->add('cod_area', 'choice', array('required' => true,
-        "choices" => $datos 
-        ));
     $form = $form->getForm();
 
     if("POST" == $app['request']->getMethod()){
@@ -178,18 +166,6 @@ $app->match('/sms/masivos', function () use ($app) {
                                                 "accept" => ".csv",
                                                 )));
 
-    $find_sql = "SELECT codigo, pais FROM `paises` order by pais";
-    $rows_sql = $app['db']->fetchAll($find_sql, array());
-
-    $datos = array();
-    foreach ($rows_sql as  $value) {
-       $datos[$value['codigo']] = $value['pais'];
-    }
-
-
-    $form = $form->add('cod_area', 'choice', array('required' => true,
-        "choices" => $datos 
-        ));
     $form = $form->getForm();
 
     if("POST" == $app['request']->getMethod()){
